@@ -1,0 +1,30 @@
+{
+    "name": "powerkernel/yii-core-api",
+    "description": "Yii Core API",
+    "type": "yii2-module",
+    "keywords": ["yii2","core", "api"],
+    "license": "Private",
+    "authors": [
+        {
+            "name": "Harry Tang",
+            "email": "harry@powerkernel.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "powerkernel\\core\\": "src"
+        }
+    },
+    "extra": {
+        "asset-installer-paths": {
+            "npm-asset-library": "vendor/npm",
+            "bower-asset-library": "vendor/bower"
+        }
+    }
+}
