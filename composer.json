@@ -18,7 +18,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "powerkernel\\core\\": "src"
+            "powerkernel\\yiicore\\": "src"
         }
     },
     "extra": {
