@@ -11,7 +11,7 @@ return [
             '__class' => \yii\rest\UrlRule::class,
             'pluralize' => false,
             'controller' => [
-                'v1/core/default'
+                'v1/core/user'
             ],
             'tokens' => [
                 '{id}' => '<id:\\w[\\w,]*>',

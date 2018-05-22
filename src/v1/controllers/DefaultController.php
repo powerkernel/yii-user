@@ -5,6 +5,12 @@
  * @copyright Copyright (c) 2018 Power Kernel
  */
 
+namespace powerkernel\yiicore\v1\controllers;
+
+/**
+ * Class DefaultController
+ * @package powerkernel\yiicore\v1\controllers
+ */
 class DefaultController extends \yii\rest\Controller
 {
     /**
@@ -15,7 +21,8 @@ class DefaultController extends \yii\rest\Controller
     {
         return [
             'success' => true,
-            'coreVersion' => '1.0.0'
+            'module' => 'Core API',
+            'version' => '1.0.0'
         ];
     }
 }

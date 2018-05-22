@@ -6,7 +6,7 @@
  */
 
 
-namespace powerkernel\yiicore\controllers;
+namespace powerkernel\yiicore\common\controllers;
 
 use yii\filters\AccessControl;
 use yii\filters\auth\HttpBasicAuth;
