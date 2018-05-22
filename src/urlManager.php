@@ -6,18 +6,19 @@
  */
 
 return [
-    'rules'=>[
+    'rules' => [
         [
             '__class' => \yii\rest\UrlRule::class,
-            'pluralize1' => false,
-            'controller' => 'user',
+            'pluralize' => false,
+            'controller' => [
+                'v1/user' => 'v1/core/user'
+            ],
             'tokens' => [
                 '{id}' => '<id:\\w[\\w,]*>',
             ],
-            //'patterns'=>[],
-            'extraPatterns' => [
-                'GET test' => 'test',
-            ]
+//            'extraPatterns' => [
+//                'GET test' => 'test',
+//            ]
         ],
     ]
 ];
