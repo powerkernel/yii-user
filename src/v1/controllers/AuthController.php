@@ -8,10 +8,10 @@
 namespace powerkernel\yiicore\v1\controllers;
 
 /**
- * Class UserController
+ * Class AuthController
  * @package powerkernel\yiicore\v1\controllers
  */
-class UserController extends \powerkernel\yiicore\controllers\UserController
+class AuthController extends \powerkernel\yiicore\controllers\AuthController
 {
 
 }
