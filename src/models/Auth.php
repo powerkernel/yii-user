@@ -9,6 +9,7 @@ namespace powerkernel\yiicore\models;
 
 use powerkernel\yiicommon\behaviors\UTCDateTimeBehavior;
 
+
 /**
  * Class Auth
  * @package powerkernel\yiicore\models
@@ -252,12 +253,21 @@ class Auth extends \yii\mongodb\ActiveRecord
     protected function sendEmail()
     {
         $subject = \Yii::t('app', 'Verification code for {APP}', ['APP' => \Yii::$app->name]);
-        return \Yii::$app->mailer->compose()
-            ->setFrom('from@domain.com')
-            ->setTo('to@domain.com')
-            ->setSubject('PIN Code')
-            ->setTextBody($this->code)
-            ->setHtmlBody('<b>' . $this->code . '</b>')
+        return \Yii::$app->mailer
+            ->compose(
+                [
+                    'html' => '@vendor/powerkernel/yii-core-api/src/mail/auth-request-html',
+                    'text' => '@vendor/powerkernel/yii-core-api/src/mail/auth-request-text'
+                ],
+                [
+                    'model' => $this,
+                    'title' => $subject
+                ]
+            )
+            ->setFrom(\Yii::$app->params['mailer']['from'])
+            ->setTo($this->identifier)
+            ->setSubject($subject)
             ->send();
+        //file_put_contents(\Yii::$app->runtimePath.'/mail/mail-'.time().'.html', $s);
     }
 }

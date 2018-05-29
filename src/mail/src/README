@@ -1,0 +1,1 @@
+grunt --dist=../vendor/powerkernel/yii-core-api/mail
