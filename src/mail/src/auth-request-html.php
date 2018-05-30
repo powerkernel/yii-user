@@ -7,7 +7,6 @@
 
 /* @var $this yii\web\View */
 /* @var $model \powerkernel\yiicore\models\Auth */
-/* @var $title string */
 
 ?>
 <table class="body-wrap">
@@ -17,8 +16,8 @@
             <div class="content">
                 <table class="main" width="100%" cellpadding="0" cellspacing="0">
                     <tr>
-                        <td class="alert alert-good">
-                            <?= $title ?>
+                        <td class="alert alert-primary">
+                            <?= Yii::t('core', 'Verification') ?>
                         </td>
                     </tr>
                     <tr>
@@ -26,12 +25,12 @@
                             <table width="100%" cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td class="content-block">
-                                        <?= Yii::t('app', 'Hello,') ?>
+                                        <?= Yii::t('core', 'Hello,') ?>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="content-block">
-                                        <?= Yii::t('app', 'Your verification code is: <strong>{CODE}</strong>', ['CODE' => $model->code]) ?>
+                                        <?= Yii::t('core', 'Your verification code is: {CODE}', ['CODE' => $model->code]) ?>
                                     </td>
                                 </tr>
                             </table>

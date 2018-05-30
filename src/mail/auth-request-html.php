@@ -7,7 +7,6 @@
 
 /* @var $this yii\web\View */
 /* @var $model \powerkernel\yiicore\models\Auth */
-/* @var $title string */
 
 ?>
 <table class="body-wrap" style="background-color: #f6f6f6; width: 100%; margin: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px;" width="100%" bgcolor="#f6f6f6">
@@ -17,8 +16,8 @@
             <div class="content" style="max-width: 600px; display: block; padding: 20px; margin: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px;">
                 <table class="main" width="100%" cellpadding="0" cellspacing="0" style="background-color: #fff; border: 1px solid #e9e9e9; border-radius: 3px; margin: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px;" bgcolor="#fff">
                     <tr style="margin: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px;">
-                        <td class="alert alert-good" style="vertical-align: top; color: #fff; border-radius: 3px 3px 0 0; text-align: center; padding: 20px; font-weight: 500; background-color: #68B90F; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; box-sizing: border-box; margin: 0;" valign="top" align="center" bgcolor="#68B90F">
-                            <?= $title ?>
+                        <td class="alert alert-primary" style="vertical-align: top; color: #fff; border-radius: 3px 3px 0 0; text-align: center; padding: 20px; font-weight: 500; background-color: #2196f3; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; box-sizing: border-box; margin: 0;" valign="top" align="center" bgcolor="#2196f3">
+                            <?= Yii::t('core', 'Verification') ?>
                         </td>
                     </tr>
                     <tr style="margin: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px;">
@@ -26,12 +25,12 @@
                             <table width="100%" cellpadding="0" cellspacing="0" style="margin: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px;">
                                 <tr style="margin: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px;">
                                     <td class="content-block" style="vertical-align: top; padding: 0 0 20px; margin: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px;" valign="top">
-                                        <?= Yii::t('app', 'Hello,') ?>
+                                        <?= Yii::t('core', 'Hello,') ?>
                                     </td>
                                 </tr>
                                 <tr style="margin: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px;">
                                     <td class="content-block" style="vertical-align: top; padding: 0 0 20px; margin: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px;" valign="top">
-                                        <?= Yii::t('app', 'Your verification code is: <strong>{CODE}', ['CODE' => $model->code]) ?>
+                                        <?= Yii::t('core', 'Your verification code is: {CODE}', ['CODE' => $model->code]) ?>
                                     </td>
                                 </tr>
                             </table>

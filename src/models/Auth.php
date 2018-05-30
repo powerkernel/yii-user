@@ -29,16 +29,6 @@ class Auth extends \yii\mongodb\ActiveRecord
 
     /**
      * @inheritdoc
-     * @return null|object|\yii\mongodb\Connection
-     * @throws \yii\base\InvalidConfigException
-     */
-    public static function getDb()
-    {
-        return \Yii::$app->get('db');
-    }
-
-    /**
-     * @inheritdoc
      */
     public static function collectionName()
     {
@@ -162,11 +152,11 @@ class Auth extends \yii\mongodb\ActiveRecord
     {
 
         $default = [
-            'identifier' => \Yii::t('app', 'Identifier'),
-            'code' => \Yii::t('app', 'Verification code'),
-            'status' => Yii::t('app', 'Status'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'updated_at' => Yii::t('app', 'Updated At'),
+            'identifier' => \Yii::t('core', 'Identifier'),
+            'code' => \Yii::t('core', 'Verification code'),
+            'status' => Yii::t('core', 'Status'),
+            'created_at' => Yii::t('core', 'Created At'),
+            'updated_at' => Yii::t('core', 'Updated At'),
         ];
 
 
@@ -252,7 +242,7 @@ class Auth extends \yii\mongodb\ActiveRecord
      */
     protected function sendEmail()
     {
-        $subject = \Yii::t('app', 'Verification code for {APP}', ['APP' => \Yii::$app->name]);
+        $subject = \Yii::t('core', 'Verification code for {APP}', ['APP' => \Yii::$app->name]);
         return \Yii::$app->mailer
             ->compose(
                 [
@@ -261,13 +251,11 @@ class Auth extends \yii\mongodb\ActiveRecord
                 ],
                 [
                     'model' => $this,
-                    'title' => $subject
                 ]
             )
             ->setFrom(\Yii::$app->params['mailer']['from'])
             ->setTo($this->identifier)
             ->setSubject($subject)
             ->send();
-        //file_put_contents(\Yii::$app->runtimePath.'/mail/mail-'.time().'.html', $s);
     }
 }

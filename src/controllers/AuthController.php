@@ -12,7 +12,6 @@ use powerkernel\yiicore\forms\AuthRequestForm;
 use powerkernel\yiicore\models\Auth;
 use yii\filters\AccessControl;
 use yii\filters\auth\HttpBasicAuth;
-use yii\filters\VerbFilter;
 use yii\web\BadRequestHttpException;
 
 
@@ -22,6 +21,10 @@ use yii\web\BadRequestHttpException;
 class AuthController extends \yii\rest\Controller
 {
 
+    /**
+     * @inheritdoc
+     * @var array
+     */
     public $serializer = [
         '__class' => \yii\rest\Serializer::class,
         'collectionEnvelope' => 'items',
@@ -31,18 +34,13 @@ class AuthController extends \yii\rest\Controller
      * @inheritdoc
      * @return array
      */
-//    public function behaviors()
-//    {
-//        return [
-//            'verbs' => [
-//                '__class' => VerbFilter::class,
-//                'actions' => [
-//                    //'request' => ['post'],
-//                ],
-//            ],
-//        ];
-//    }
-
+    protected function verbs()
+    {
+        return [
+            'verify' => ['POST'],
+            'request' => ['POST'],
+        ];
+    }
     /**
      * @param $action
      * @return bool
@@ -68,27 +66,30 @@ class AuthController extends \yii\rest\Controller
         $model->load(\Yii::$app->getRequest()->getParsedBody(), '');
         if ($model->validate()) {
             $auth = new Auth();
-            $auth->identifier=$model->identifier;
-            if($auth->save()){
+            $auth->identifier = $model->identifier;
+            if ($auth->save()) {
                 return [
-                    'success'=>true,
-                    'data'=>[
-                        'id'=>$auth->getId(),
-                        'identifier'=>$auth->identifier,
+                    'success' => true,
+                    'data' => [
+                        'id' => $auth->getId(),
+                        'identifier' => $auth->identifier,
                     ]
                 ];
             }
         } else {
             return [
-                'success'=>false,
-                'data'=>[
-                    'errors'=>$model->errors
+                'success' => false,
+                'data' => [
+                    'errors' => $model->errors
                 ]
             ];
         }
     }
 
-    public function actionVerify(){
-
+    public function actionVerify()
+    {
+        return [
+            'data'=>\Yii::$app->getRequest()->getMethod()
+        ];
     }
 }

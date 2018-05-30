@@ -39,17 +39,6 @@ class User extends \yii\mongodb\ActiveRecord implements IdentityInterface
     const STATUS_ACTIVE = 'STATUS_ACTIVE';
     const STATUS_SUSPENDED = 'STATUS_SUSPENDED';
 
-
-    /**
-     * @inheritdoc
-     * @return null|object|\yii\mongodb\Connection
-     * @throws \yii\base\InvalidConfigException
-     */
-    public static function getDb()
-    {
-        return \Yii::$app->get('db');
-    }
-
     /**
      * @inheritdoc
      */
