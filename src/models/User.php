@@ -170,6 +170,7 @@ class User extends \yii\mongodb\ActiveRecord implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
+        file_put_contents(\Yii::$app->runtimePath.'/at.text', $token);
         return static::findOne(['access_token' => $token]);
     }
 

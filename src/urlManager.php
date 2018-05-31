@@ -16,9 +16,10 @@ return [
             'tokens' => [
                 '{id}' => '<id:\\w[\\w,]*>',
             ],
-//            'extraPatterns' => [
-//                'GET test' => 'test',
-//            ]
+            'extraPatterns' => [
+                'GET me' => 'me',
+                'POST me' => 'update-me',
+            ]
         ],
     ]
 ];

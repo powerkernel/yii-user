@@ -9,6 +9,7 @@
 namespace powerkernel\yiicore\controllers;
 
 use powerkernel\yiicore\forms\AuthRequestForm;
+use powerkernel\yiicore\forms\AuthVerifyForm;
 use powerkernel\yiicore\models\Auth;
 use yii\filters\AccessControl;
 use yii\filters\auth\HttpBasicAuth;
@@ -62,11 +63,11 @@ class AuthController extends \yii\rest\Controller
      */
     public function actionRequest()
     {
-        $model = new AuthRequestForm();
-        $model->load(\Yii::$app->getRequest()->getParsedBody(), '');
-        if ($model->validate()) {
+        $form = new AuthRequestForm();
+        $form->load(\Yii::$app->getRequest()->getParsedBody(), '');
+        if ($form->validate()) {
             $auth = new Auth();
-            $auth->identifier = $model->identifier;
+            $auth->identifier = $form->identifier;
             if ($auth->save()) {
                 return [
                     'success' => true,
@@ -80,14 +81,36 @@ class AuthController extends \yii\rest\Controller
             return [
                 'success' => false,
                 'data' => [
-                    'errors' => $model->errors
+                    'errors' => $form->errors
                 ]
             ];
         }
     }
 
+    /**
+     * @return array
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\UnsupportedMediaTypeHttpException
+     */
     public function actionVerify()
     {
+        $form = new AuthVerifyForm();
+        $form->load(\Yii::$app->getRequest()->getParsedBody(), '');
+        if($form->validate()){
+            return [
+                'success' => true,
+                'data' => $form->data
+            ];
+        }
+        else {
+            return [
+                'success' => false,
+                'data' => [
+                    'errors' => $form->errors
+                ]
+            ];
+        }
+
         return [
             'data'=>\Yii::$app->getRequest()->getMethod()
         ];

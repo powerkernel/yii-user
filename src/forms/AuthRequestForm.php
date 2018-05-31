@@ -9,10 +9,13 @@ namespace powerkernel\yiicore\forms;
 
 use yii\base\Model;
 
+/**
+ * Class AuthRequestForm
+ * @package powerkernel\yiicore\forms
+ */
 class AuthRequestForm extends Model
 {
     public $identifier;
-
 
     /**
      * @inheritdoc
