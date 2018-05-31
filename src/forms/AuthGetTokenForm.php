@@ -11,13 +11,13 @@ use powerkernel\yiicore\models\Auth;
 use yii\base\Model;
 
 /**
- * Class AuthVerifyForm
+ * Class AuthGetTokenForm
  * @package powerkernel\yiicore\forms
  */
-class AuthVerifyForm extends Model
+class AuthGetTokenForm extends Model
 {
-    public $id;
-    public $code;
+    public $identifier;
+    public $auth_key;
     public $data;
 
     /**
@@ -27,35 +27,35 @@ class AuthVerifyForm extends Model
     public function rules()
     {
         return [
-            [['id', 'code'], 'required'],
-            [['code'], 'checkCode'],
+            [['identifier', 'auth_key'], 'required'],
+            ['identifier', 'email'],
+            [['identifier', 'auth_key'], 'trim'],
+            [['auth_key'], 'checkAuthKey'],
         ];
     }
 
     /**
-     * check code
+     * check auth key
      * @param $attribute
      * @param $params
      */
-    public function checkCode($attribute, $params)
+    public function checkAuthKey($attribute, $params)
     {
         $auth = Auth::find()->where([
-            '_id' => $this->id,
-            'status' => Auth::STATUS_NEW
+            'identifier' => $this->identifier,
+            'status' => Auth::STATUS_VERIFIED
         ])->one();
 
         if ($auth) {
-            if ($this->code != $auth->code) {
+            if ($this->auth_key != $auth->auth_key) {
                 $auth->attempts++;
-                $this->addError($attribute, \Yii::t('core', 'Wrong code. Please try again.'));
+                $this->addError($attribute, \Yii::t('core', 'Wrong auth key. Please try again.'));
             } else {
-                $auth->attempts=0;
-                $auth->status = Auth::STATUS_VERIFIED;
-                $this->data = [
-                    'id' => (string)$auth->id,
-                    'identifier' => $auth->identifier,
-                    'auth_key' => $auth->auth_key
-                ];
+                $token=$auth->getAccessToken();
+                if($token!==false){
+                    $auth->status = Auth::STATUS_USED;
+                    $this->data = ['token'=>$token];
+                }
             }
             $auth->save();
         } else {

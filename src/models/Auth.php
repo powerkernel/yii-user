@@ -14,8 +14,10 @@ use powerkernel\yiicommon\behaviors\UTCDateTimeBehavior;
  * Class Auth
  * @package powerkernel\yiicore\models
  *
+ * @property mixed $_id
  * @property string $identifier
  * @property string $code
+ * @property string $auth_key
  * @property string $ip
  * @property integer $attempts
  * @property string $status
@@ -25,6 +27,7 @@ use powerkernel\yiicommon\behaviors\UTCDateTimeBehavior;
 class Auth extends \yii\mongodb\ActiveRecord
 {
     const STATUS_NEW = 'STATUS_NEW';
+    const STATUS_VERIFIED = 'STATUS_VERIFIED';
     const STATUS_UNVERIFIED = 'STATUS_UNVERIFIED';
     const STATUS_USED = 'STATUS_USED';
 
@@ -45,6 +48,7 @@ class Auth extends \yii\mongodb\ActiveRecord
             '_id',
             'identifier',
             'code',
+            'auth_key',
             'ip',
             'attempts',
             'status',
@@ -97,8 +101,8 @@ class Auth extends \yii\mongodb\ActiveRecord
     public static function getStatusOption($e = null)
     {
         $option = [
-            self::STATUS_NEW => Yii::t('app', 'New'),
-            self::STATUS_USED => Yii::t('app', 'Used'),
+            self::STATUS_NEW => \Yii::t('core', 'New'),
+            self::STATUS_USED => \Yii::t('core', 'Used'),
         ];
         if (is_array($e))
             foreach ($e as $i)
@@ -117,7 +121,7 @@ class Auth extends \yii\mongodb\ActiveRecord
         if (!empty($status) && in_array($status, array_keys($list))) {
             return $list[$status];
         }
-        return Yii::t('app', 'Unknown');
+        return \Yii::t('core', 'Unknown');
     }
 
 
@@ -126,21 +130,23 @@ class Auth extends \yii\mongodb\ActiveRecord
      */
     public function rules()
     {
-
-
         $default = [
-            [['identifier'], 'match', 'pattern' => '/^(\+[1-9][0-9]{9,14})|([a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)$/', 'message' => \Yii::t('app', 'Email or phone number is invalid. Note that phone number should begin with a country prefix code.')],
-            [['attempts'], 'default', 'value' => 0],
-
             [['identifier'], 'required'],
-            [['code'], 'string', 'length' => 6],
-
-            [['identifier'], 'trim'],
+            [
+                'identifier',
+                'match',
+                'pattern' => '/^(\+[1-9][0-9]{9,14})|([a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)$/',
+                'message' => \Yii::t('core', 'Identifier must be an email or a phone number.')
+            ],
+            [['identifier', 'code'], 'trim'],
+            ['code', 'string', 'length' => 6],
             [['code'], 'match', 'pattern' => '/^[0-9]{6}$/'],
 
-            [['status'], 'string', 'max' => 20],
+            ['attempts', 'default', 'value' => 0],
+            ['status', 'default', 'value' => Auth::STATUS_NEW],
+            ['auth_key', 'string', 'max' => 32],
+            ['status', 'string', 'max' => 20],
             [['created_at', 'updated_at'], 'yii\mongodb\validators\MongoDateValidator'],
-            //['captcha', ReCaptchaValidator::class, 'message' => Yii::t('app', 'Prove you are NOT a robot')]
         ];
 
         return $default;
@@ -151,51 +157,64 @@ class Auth extends \yii\mongodb\ActiveRecord
      */
     public function attributeLabels()
     {
-
-        $default = [
+        return [
             'identifier' => \Yii::t('core', 'Identifier'),
             'code' => \Yii::t('core', 'Verification code'),
-            'status' => Yii::t('core', 'Status'),
-            'created_at' => Yii::t('core', 'Created At'),
-            'updated_at' => Yii::t('core', 'Updated At'),
+            'auth_key' => \Yii::t('core', 'Auth key'),
+            'status' => \Yii::t('core', 'Status'),
+            'created_at' => \Yii::t('core', 'Created At'),
+            'updated_at' => \Yii::t('core', 'Updated At'),
         ];
-
-
-        return array_merge($default, $identifier);
     }
 
     /**
      * @inheritdoc
      * @param bool $insert
      * @return bool
+     * @throws \yii\base\Exception
      */
     public function beforeSave($insert)
     {
         if ($insert) {
             $this->status = self::STATUS_NEW;
             $this->ip = \Yii::$app->request->userIP;
-            /* demo account */
-            if ($this->identifier == \Yii::$app->params['demo_account']) {
-                $this->code = Yii::$app->params['demo_pass'];
-                return true;
-            }
-            /* not demo */
+            $this->generateAuthKey();
             $this->code = (string)rand(100000, 999999);
-            /* send code */
-            if ($this->getType() == 'phone') {
-                return $this->sendSMS();
-            }
-            if ($this->getType() == 'email') {
-                return $this->sendEmail();
-            }
-            /* cannot send code ? */
-            return false;
         } else {
             if ($this->attempts >= 3) {
                 $this->status = self::STATUS_UNVERIFIED;
             }
         }
         return parent::beforeSave($insert); // TODO: Change the autogenerated stub
+    }
+
+    /**
+     * @inheritdoc
+     * @param bool $insert
+     * @param array $changedAttributes
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes); // TODO: Change the autogenerated stub
+        /* send code */
+        if($insert){
+            if ($this->getType() == 'phone') {
+                $this->sendSMS();
+            }
+            if ($this->getType() == 'email') {
+                $this->sendEmail();
+            }
+        }
+
+    }
+
+    /**
+     * Generates authentication key
+     * @throws \yii\base\Exception
+     */
+    public function generateAuthKey()
+    {
+        $this->auth_key = \Yii::$app->security->generateRandomString();
     }
 
 
@@ -223,10 +242,10 @@ class Auth extends \yii\mongodb\ActiveRecord
      */
     protected function sendSMS()
     {
-        return (new AwsSMS())->send(
-            $this->identifier,
-            Yii::t('app', '{APP}: Your verification code is {CODE}', ['CODE' => $this->code, 'APP' => Yii::$app->name]
-            ));
+        return \Yii::$app->sns->client->publish([
+            'Message' => \Yii::t('core', '{APP}: Your verification code is {CODE}', ['CODE' => $this->code, 'APP' => \Yii::$app->name]),
+            'PhoneNumber' => $this->identifier
+        ]);
     }
 
     /**
@@ -253,23 +272,26 @@ class Auth extends \yii\mongodb\ActiveRecord
     }
 
     /**
-     * @return array
+     * get access token
+     * @return bool|string
      */
-    public function getAuthenticatedUser()
+    public function getAccessToken()
     {
-        $user = User::find()
-            ->where(['email' => $this->identifier])
-            //->orWhere(['phone'=>$this->identifier])
-            ->one();
-        if (!$user) {
-            $user = new User();
-            $user->name = $this->identifier;
-            $user->email = $this->identifier;
-            $user->save();
+        $type = $this->getType();
+        if($type=='email'){
+            $user = User::find()
+                ->where(['email' => $this->identifier])
+                ->one();
+            if (!$user) {
+                $user = new User();
+                $user->name = $this->identifier;
+                $user->email = $this->identifier;
+                if (!$user->save()) {
+                    return false;
+                }
+            }
+            return $user->access_token;
         }
-        return [
-            'identifier' => $user->email,
-            'token' => $user->access_token
-        ];
+        return false;
     }
 }

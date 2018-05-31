@@ -8,12 +8,10 @@
 
 namespace powerkernel\yiicore\controllers;
 
+use powerkernel\yiicore\forms\AuthGetTokenForm;
 use powerkernel\yiicore\forms\AuthRequestForm;
 use powerkernel\yiicore\forms\AuthVerifyForm;
 use powerkernel\yiicore\models\Auth;
-use yii\filters\AccessControl;
-use yii\filters\auth\HttpBasicAuth;
-use yii\web\BadRequestHttpException;
 
 
 /**
@@ -40,8 +38,10 @@ class AuthController extends \yii\rest\Controller
         return [
             'verify' => ['POST'],
             'request' => ['POST'],
+            'get-access-token' => ['POST'],
         ];
     }
+
     /**
      * @param $action
      * @return bool
@@ -72,19 +72,18 @@ class AuthController extends \yii\rest\Controller
                 return [
                     'success' => true,
                     'data' => [
-                        'id' => $auth->getId(),
+                        'id' => (string)$auth->getId(),
                         'identifier' => $auth->identifier,
                     ]
                 ];
             }
-        } else {
-            return [
-                'success' => false,
-                'data' => [
-                    'errors' => $form->errors
-                ]
-            ];
         }
+        return [
+            'success' => false,
+            'data' => [
+                'errors' => $form->errors
+            ]
+        ];
     }
 
     /**
@@ -96,23 +95,43 @@ class AuthController extends \yii\rest\Controller
     {
         $form = new AuthVerifyForm();
         $form->load(\Yii::$app->getRequest()->getParsedBody(), '');
-        if($form->validate()){
+        if ($form->validate()) {
             return [
                 'success' => true,
                 'data' => $form->data
             ];
         }
-        else {
+
+        return [
+            'success' => false,
+            'data' => [
+                'errors' => $form->errors
+            ]
+        ];
+
+    }
+
+    /**
+     * Get access token
+     * @return array
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\UnsupportedMediaTypeHttpException
+     */
+    public function actionGetAccessToken(){
+        $form = new AuthGetTokenForm();
+        $form->load(\Yii::$app->getRequest()->getParsedBody(), '');
+        if ($form->validate()) {
             return [
-                'success' => false,
-                'data' => [
-                    'errors' => $form->errors
-                ]
+                'success' => true,
+                'data' => $form->data
             ];
         }
 
         return [
-            'data'=>\Yii::$app->getRequest()->getMethod()
+            'success' => false,
+            'data' => [
+                'errors' => $form->errors
+            ]
         ];
     }
 }
