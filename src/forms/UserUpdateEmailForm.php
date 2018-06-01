@@ -11,15 +11,14 @@ use powerkernel\yiicore\models\Auth;
 use yii\base\Model;
 
 /**
- * Class AuthGetTokenForm
+ * Class UserUpdateEmailForm
  * @package powerkernel\yiicore\forms
  */
-class AuthGetTokenForm extends Model
+class UserUpdateEmailForm extends Model
 {
     public $aid;
     public $code;
-
-    public $token;
+    public $email;
 
     /**
      * @inheritdoc
@@ -28,9 +27,11 @@ class AuthGetTokenForm extends Model
     public function rules()
     {
         return [
-            [['aid', 'code'], 'required'],
-            [['aid', 'code'], 'trim'],
-            [['code'], 'checkAuth'],
+            [['aid', 'code', 'email'], 'required'],
+            [['aid', 'code', 'email'], 'trim'],
+            ['email', 'email'],
+            ['email', 'unique', 'targetAttribute' => 'email', 'targetClass' => 'powerkernel\yiicore\models\User', 'message' => \Yii::t('core', 'This email address has already been taken.')],
+            ['code', 'checkAuth'],
         ];
     }
 
@@ -43,17 +44,14 @@ class AuthGetTokenForm extends Model
     {
         if (!$this->hasErrors()) {
             $auth = Auth::verify($this->aid, $this->code);
-            if ($auth) {
-                $token = $auth->getAccessToken();
-                if ($token !== false) {
-                    $auth->status = Auth::STATUS_USED;
-                    $this->token = $token;
-                } else {
-                    $this->addError($attribute, \Yii::t('core', 'This Auth ID cannot be used to get access token.'));
-                }
-            } else {
+            if (!$auth) {
                 $this->addError($attribute, \Yii::t('core', 'We cannot process the request.'));
+            } else {
+                if ($this->email != $auth->identifier) {
+                    $this->addError($attribute, \Yii::t('core', 'We cannot process the request.'));
+                }
             }
+
         }
         unset($params, $validator);
     }

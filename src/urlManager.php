@@ -19,6 +19,8 @@ return [
             'extraPatterns' => [
                 'GET me' => 'me',
                 'POST me' => 'update-me',
+                'POST email' => 'update-email',
+                'POST phone' => 'update-phone'
             ]
         ],
     ]
