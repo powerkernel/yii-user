@@ -12,7 +12,7 @@
 ?>
 
 
-<?= Yii::t('app', 'Hello,') ?>
+<?= Yii::t('core', 'Hello,') ?>
 
 
-<?= Yii::t('app', 'Your verification code is: {CODE}', ['CODE' => $model->code]) ?>
+<?= Yii::t('core', 'Your verification code is: {CODE}', ['CODE' => $model->code]) ?>

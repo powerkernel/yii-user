@@ -15,4 +15,6 @@
 <?= Yii::t('core', 'Hello,') ?>
 
 
-<?= Yii::t('core', 'Your verification code is: {CODE}', ['CODE' => $model->code]) ?>
+<?= Yii::t('core', 'The following customer has signed up at your website:') ?>
+
+<?= Yii::t('core', 'Email: {EMAIL}', ['EMAIL'=>$model->email]) ?>
