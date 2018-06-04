@@ -237,7 +237,7 @@ class User extends \yii\mongodb\ActiveRecord implements IdentityInterface
             // admin
             if (\Yii::$app->params['account']['notification']['admin']['accountCreated']) {
                 $subject = \Yii::t('core', 'Customer Sign Up at {APP}', ['APP' => \Yii::$app->name]);
-                return \Yii::$app->mailer
+                \Yii::$app->mailer
                     ->compose(
                         [
                             'html' => '@vendor/powerkernel/yii-core-api/src/mail/user-created-admin-html',
@@ -252,6 +252,25 @@ class User extends \yii\mongodb\ActiveRecord implements IdentityInterface
                     ->setSubject($subject)
                     ->send();
             }
+            // user
+            if (\Yii::$app->params['account']['notification']['user']['accountCreated']){
+                $subject = \Yii::t('core', 'Registration Complete at {APP}', ['APP' => \Yii::$app->name]);
+                \Yii::$app->mailer
+                    ->compose(
+                        [
+                            'html' => '@vendor/powerkernel/yii-core-api/src/mail/user-created-html',
+                            'text' => '@vendor/powerkernel/yii-core-api/src/mail/user-created-text'
+                        ],
+                        [
+                            'model' => $this,
+                        ]
+                    )
+                    ->setFrom(\Yii::$app->params['mailer']['from'])
+                    ->setTo($this->email)
+                    ->setSubject($subject)
+                    ->send();
+            }
+
         }
     }
 }
