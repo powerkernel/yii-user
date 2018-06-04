@@ -93,7 +93,6 @@ class UserController extends \powerkernel\yiicommon\controllers\ActiveController
         if ($me->save(true, ['name', 'timezone', 'language'])) {
             return [
                 'success' => true,
-                //'data' => $me
             ];
         } else {
             return [
