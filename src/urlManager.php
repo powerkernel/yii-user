@@ -15,7 +15,6 @@ return [
             ],
             'tokens' => [
                 '{id}' => '<id:\\w[\\w,]*>',
-                '{action}' => '<action:[a-zA-Z0-9\\-]+>',
             ],
             'extraPatterns' => [
                 'GET me' => 'me',

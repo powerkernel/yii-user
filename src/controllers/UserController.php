@@ -11,7 +11,7 @@ namespace powerkernel\yiicore\controllers;
 use powerkernel\yiicore\forms\UserUpdateEmailForm;
 use powerkernel\yiicore\forms\UserUpdatePhoneForm;
 use yii\filters\AccessControl;
-use yii\filters\auth\HttpBasicAuth;
+
 
 /**
  * Class UserController
@@ -28,8 +28,12 @@ class UserController extends \powerkernel\yiicommon\controllers\ActiveController
     {
         $behaviors = parent::behaviors();
         $behaviors['access'] = [
-            'class' => AccessControl::class,
+            '__class' => AccessControl::class,
             'rules' => [
+                [
+                    'verbs' => ['OPTIONS'],
+                    'allow' => true,
+                ],
                 [
                     'roles' => ['admin'],
                     'allow' => true,
@@ -40,9 +44,6 @@ class UserController extends \powerkernel\yiicommon\controllers\ActiveController
                     'allow' => true,
                 ],
             ],
-        ];
-        $behaviors['authenticator'] = [
-            '__class' => HttpBasicAuth::class,
         ];
         return $behaviors;
     }
@@ -143,6 +144,12 @@ class UserController extends \powerkernel\yiicommon\controllers\ActiveController
         }
     }
 
+    /**
+     * Update phone number
+     * @return array
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\UnsupportedMediaTypeHttpException
+     */
     public function actionUpdatePhone()
     {
         $form = new UserUpdatePhoneForm();
