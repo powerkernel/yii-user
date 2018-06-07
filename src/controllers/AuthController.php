@@ -29,7 +29,6 @@ class AuthController extends \powerkernel\yiicommon\controllers\RestController
             '__class' => \yii\filters\VerbFilter::class,
             'actions' => [
                 'request' => ['POST'],
-                'verify' => ['POST'],
                 'get-access-token' => ['POST'],
             ],
         ];

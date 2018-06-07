@@ -16,7 +16,7 @@ class m150722_083431_init extends \yii\mongodb\Migration
      */
     public function up()
     {
-        $col = Yii::$app->db->getCollection('core_users');
+        $col = Yii::$app->mongodb->getCollection('core_users');
         $col->createIndexes([
             [
                 'key' => ['email'],
@@ -37,8 +37,9 @@ class m150722_083431_init extends \yii\mongodb\Migration
      */
     public function down()
     {
-        echo "m150722_083431_init cannot be reverted.\n";
-        return false;
+        /* @var $col \yii\mongodb\Collection */
+        $col = Yii::$app->mongodb->getCollection('core_users');
+        $col->drop();
     }
 
 }

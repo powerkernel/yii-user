@@ -34,7 +34,7 @@ class Auth extends \yii\mongodb\ActiveRecord
      */
     public static function collectionName()
     {
-        return 'core_auth';
+        return 'core_auth_code';
     }
 
     /**
