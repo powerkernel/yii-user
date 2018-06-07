@@ -15,12 +15,13 @@ return [
             ],
             'tokens' => [
                 '{id}' => '<id:\\w[\\w,]*>',
+                '{action}' => '<action:[a-zA-Z0-9\\-]+>',
             ],
             'extraPatterns' => [
                 'GET me' => 'me',
                 'POST me' => 'update-me',
                 'POST email' => 'update-email',
-                'POST phone' => 'update-phone'
+                'POST phone' => 'update-phone',
             ]
         ],
     ]

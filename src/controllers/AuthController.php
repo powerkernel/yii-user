@@ -22,13 +22,18 @@ class AuthController extends \powerkernel\yiicommon\controllers\RestController
      * @inheritdoc
      * @return array
      */
-    protected function verbs()
+    public function behaviors()
     {
-        return [
-            'verify' => ['POST'],
-            'request' => ['POST'],
-            'get-access-token' => ['POST'],
+        $behaviors = parent::behaviors();
+        $behaviors['verbs'] = [
+            '__class' => \yii\filters\VerbFilter::class,
+            'actions' => [
+                'request' => ['POST'],
+                'verify' => ['POST'],
+                'get-access-token' => ['POST'],
+            ],
         ];
+        return $behaviors;
     }
 
     /**

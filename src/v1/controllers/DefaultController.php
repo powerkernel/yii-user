@@ -7,11 +7,13 @@
 
 namespace powerkernel\yiicore\v1\controllers;
 
+use powerkernel\yiicommon\controllers\RestController;
+
 /**
  * Class DefaultController
  * @package powerkernel\yiicore\v1\controllers
  */
-class DefaultController extends \yii\rest\Controller
+class DefaultController extends RestController
 {
     /**
      * index
