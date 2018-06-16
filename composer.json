@@ -1,9 +1,9 @@
 {
   "name": "powerkernel/yii-core-api",
   "description": "Yii Core API",
-  "type": "yii2-module",
+  "type": "yii-module",
   "keywords": [
-    "yii2",
+    "yii",
     "core",
     "api"
   ],
@@ -15,7 +15,7 @@
     }
   ],
   "require": {
-    "yiisoft/yii2": "2.1.x-dev"
+    "yiisoft/yii2": "3.0.x-dev"
   },
   "repositories": [
     {
