@@ -1,24 +1,20 @@
 Yii User API
 ============
 
+Prerequisites
+-------------
+- [Yii API Starter Kit](https://github.com/powerkernel/yii-api-starter-kit)
+- [Yii Common](https://github.com/powerkernel/yii-common)
+- [Yii Auth API](https://github.com/powerkernel/yii-auth)
+
 Installation
 ------------
 
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
-
-Add 
-```
-{
-  "type": "git",
-  "url": "git@github.com:powerkernel/yii-user.git"
-}
-```
-to repositories section of your `composer.json` file
-
-Then either run
+Either run
 
 ```
-php composer.phar --prefer-source require powerkernel/yii-user "@dev"
+composer require powerkernel/yii-user "@dev"
 ```
 
 or add
@@ -36,3 +32,7 @@ Run in `/bin` directory
 ```
 php yii mongodb-migrate --migrationPath=@vendor/powerkernel/yii-user/src/migrations --migrationCollection=user_migration
 ```
+
+API Documentation
+-----------------
+[View on Postman](https://documenter.getpostman.com/view/4282480/RWM6xXs3)
