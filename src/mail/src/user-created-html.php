@@ -6,7 +6,7 @@
  */
 
 /* @var $this yii\web\View */
-/* @var $model \powerkernel\yiicore\models\Auth */
+/* @var $model \powerkernel\yiiuser\models\User */
 
 ?>
 
@@ -14,7 +14,7 @@
 <table class="main" width="100%" cellpadding="0" cellspacing="0">
     <tr>
         <td class="alert alert-primary">
-            <?= Yii::t('core', 'Registration Complete') ?>
+            <?= Yii::t('user', 'Registration Complete') ?>
         </td>
     </tr>
     <tr>
@@ -22,12 +22,12 @@
             <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                     <td class="content-block">
-                        <?= Yii::t('core', 'Hello,') ?>
+                        <?= Yii::t('user', 'Hello,') ?>
                     </td>
                 </tr>
                 <tr>
                     <td class="content-block">
-                        <?= Yii::t('core', 'You\'ve created a new account at {APP}.', ['APP'=>Yii::$app->name]) ?>
+                        <?= Yii::t('user', 'You\'ve created a new account at {APP}.', ['APP'=>Yii::$app->name]) ?>
                     </td>
                 </tr>
             </table>

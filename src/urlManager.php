@@ -11,17 +11,11 @@ return [
             '__class' => \yii\rest\UrlRule::class,
             'pluralize' => false,
             'controller' => [
-                'v1/core/user'
+                'v1/user/admin' => 'v1/user/user'
             ],
             'tokens' => [
                 '{id}' => '<id:\\w[\\w,]*>',
             ],
-            'extraPatterns' => [
-                'GET me' => 'me',
-                'POST me' => 'update-me',
-                'POST email' => 'update-email',
-                'POST phone' => 'update-phone',
-            ]
         ],
     ]
 ];

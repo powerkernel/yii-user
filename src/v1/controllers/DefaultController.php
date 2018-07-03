@@ -5,13 +5,13 @@
  * @copyright Copyright (c) 2018 Power Kernel
  */
 
-namespace powerkernel\yiicore\v1\controllers;
+namespace powerkernel\yiiuser\v1\controllers;
 
 use powerkernel\yiicommon\controllers\RestController;
 
 /**
  * Class DefaultController
- * @package powerkernel\yiicore\v1\controllers
+ * @package powerkernel\yiiuser\v1\controllers
  */
 class DefaultController extends RestController
 {
@@ -23,7 +23,7 @@ class DefaultController extends RestController
     {
         return [
             'success' => true,
-            'module' => 'Core API',
+            'module' => 'User API',
             'version' => '1.0.0'
         ];
     }

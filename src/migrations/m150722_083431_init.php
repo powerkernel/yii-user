@@ -16,11 +16,12 @@ class m150722_083431_init extends \yii\mongodb\Migration
      */
     public function up()
     {
-        $col = Yii::$app->mongodb->getCollection('core_users');
+        $col = Yii::$app->mongodb->getCollection('user_db');
         $col->createIndexes([
             [
                 'key' => ['email'],
                 'unique' => true,
+                'sparse' => true
             ]
         ]);
         $col->createIndexes([
@@ -38,7 +39,7 @@ class m150722_083431_init extends \yii\mongodb\Migration
     public function down()
     {
         /* @var $col \yii\mongodb\Collection */
-        $col = Yii::$app->mongodb->getCollection('core_users');
+        $col = Yii::$app->mongodb->getCollection('user_db');
         $col->drop();
     }
 

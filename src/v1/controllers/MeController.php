@@ -11,7 +11,7 @@ namespace powerkernel\yiiuser\v1\controllers;
  * Class UserController
  * @package powerkernel\yiiuser\v1\controllers
  */
-class UserController extends \powerkernel\yiiuser\controllers\UserController
+class MeController extends \powerkernel\yiiuser\controllers\MeController
 {
 
 }

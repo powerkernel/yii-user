@@ -6,7 +6,7 @@
  */
 
 /* @var $this yii\web\View */
-/* @var $model \powerkernel\yiicore\models\Auth */
+/* @var $model \powerkernel\yiiuser\models\User */
 
 ?>
 
@@ -14,7 +14,7 @@
 <table class="main" width="100%" cellpadding="0" cellspacing="0">
     <tr>
         <td class="alert alert-primary">
-            <?= Yii::t('core', 'Customer Sign Up') ?>
+            <?= Yii::t('user', 'Customer Sign Up') ?>
         </td>
     </tr>
     <tr>
@@ -22,17 +22,17 @@
             <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                     <td class="content-block">
-                        <?= Yii::t('core', 'Hello,') ?>
+                        <?= Yii::t('user', 'Hello,') ?>
                     </td>
                 </tr>
                 <tr>
                     <td class="content-block">
-                        <?= Yii::t('core', 'The following customer has signed up at your website:') ?>
+                        <?= Yii::t('user', 'The following customer has signed up at your website:') ?>
                     </td>
                 </tr>
                 <tr>
                     <td class="content-block">
-                        <?= Yii::t('core', 'Email: {EMAIL}', ['EMAIL'=>$model->email]) ?>
+                        <?= Yii::t('user', 'Email: {EMAIL}', ['EMAIL'=>$model->email]) ?>
                     </td>
                 </tr>
             </table>

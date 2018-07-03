@@ -5,14 +5,14 @@
  * @copyright Copyright (c) 2018 Power Kernel
  */
 
-namespace powerkernel\yiicore\forms;
+namespace powerkernel\yiiuser\forms;
 
-use powerkernel\yiicore\models\Auth;
+use powerkernel\yiiauth\models\Auth;
 use yii\base\Model;
 
 /**
  * Class UserUpdateEmailForm
- * @package powerkernel\yiicore\forms
+ * @package powerkernel\yiiuser\forms
  */
 class UserUpdateEmailForm extends Model
 {
@@ -30,7 +30,7 @@ class UserUpdateEmailForm extends Model
             [['aid', 'code', 'email'], 'required'],
             [['aid', 'code', 'email'], 'trim'],
             ['email', 'email'],
-            ['email', 'unique', 'targetAttribute' => 'email', 'targetClass' => 'powerkernel\yiicore\models\User', 'message' => \Yii::t('core', 'This email address has already been taken.')],
+            ['email', 'unique', 'targetAttribute' => 'email', 'targetClass' => 'powerkernel\yiiuser\models\User', 'message' => \Yii::t('user', 'This email address has already been taken.')],
             ['code', 'checkAuth'],
         ];
     }
@@ -45,10 +45,10 @@ class UserUpdateEmailForm extends Model
         if (!$this->hasErrors()) {
             $auth = Auth::verify($this->aid, $this->code);
             if (!$auth) {
-                $this->addError($attribute, \Yii::t('core', 'We cannot process the request.'));
+                $this->addError($attribute, \Yii::t('user', 'We cannot process the request.'));
             } else {
                 if ($this->email != $auth->identifier) {
-                    $this->addError($attribute, \Yii::t('core', 'We cannot process the request.'));
+                    $this->addError($attribute, \Yii::t('user', 'We cannot process the request.'));
                 }
             }
 

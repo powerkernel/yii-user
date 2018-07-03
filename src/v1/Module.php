@@ -5,16 +5,16 @@
  * @copyright Copyright (c) 2018 Power Kernel
  */
 
-namespace powerkernel\yiicore\v1;
+namespace powerkernel\yiiuser\v1;
 
 /**
  * Class Module
- * Core API Module
+ * User API Module
  */
 class Module extends \yii\base\Module
 {
 
-    public $controllerNamespace = 'powerkernel\yiicore\v1\controllers';
+    public $controllerNamespace = 'powerkernel\yiiuser\v1\controllers';
     public $defaultRoute = 'default';
 
     /**
@@ -32,7 +32,7 @@ class Module extends \yii\base\Module
     public function registerTranslations()
     {
         $class = 'powerkernel\yiicommon\i18n\MongoDbMessageSource';
-        \Yii::$app->i18n->translations['core'] = [
+        \Yii::$app->i18n->translations['user'] = [
             '__class' => $class,
             'on missingTranslation' => function ($event) {
                 $event->sender->handleMissingTranslation($event);
@@ -49,7 +49,7 @@ class Module extends \yii\base\Module
      */
     public static function t($message, $params = [], $language = null)
     {
-        return \Yii::$app->getModule('core')->translate($message, $params, $language);
+        return \Yii::$app->getModule('user')->translate($message, $params, $language);
     }
 
     /**
@@ -61,7 +61,7 @@ class Module extends \yii\base\Module
      */
     public static function translate($message, $params = [], $language = null)
     {
-        return \Yii::t('core', $message, $params, $language);
+        return \Yii::t('user', $message, $params, $language);
     }
 
 }

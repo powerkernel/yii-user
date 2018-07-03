@@ -6,13 +6,13 @@
  */
 
 /* @var $this yii\web\View */
-/* @var $model \powerkernel\yiicore\models\Auth */
+/* @var $model \powerkernel\yiiuser\models\User */
 /* @var $title string */
 
 ?>
 
 
-<?= Yii::t('core', 'Hello,') ?>
+<?= Yii::t('user', 'Hello,') ?>
 
 
-<?= Yii::t('core', 'You\'ve created a new account at {APP}.', ['APP'=>Yii::$app->name]) ?>
+<?= Yii::t('user', 'You\'ve created a new account at {APP}.', ['APP'=>Yii::$app->name]) ?>

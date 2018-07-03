@@ -5,14 +5,14 @@
  * @copyright Copyright (c) 2018 Power Kernel
  */
 
-namespace powerkernel\yiicore\forms;
+namespace powerkernel\yiiuser\forms;
 
-use powerkernel\yiicore\models\Auth;
+use powerkernel\yiiauth\models\Auth;
 use yii\base\Model;
 
 /**
  * Class UserUpdatePhoneForm
- * @package powerkernel\yiicore\forms
+ * @package powerkernel\yiiuser\forms
  */
 class UserUpdatePhoneForm extends Model
 {
@@ -31,7 +31,7 @@ class UserUpdatePhoneForm extends Model
             [['aid', 'code', 'phone'], 'required'],
             [['aid', 'code', 'phone'], 'trim'],
             ['phone', 'match', 'pattern' => '/^\+[1-9][0-9]{9,14}$/'],
-            ['phone', 'unique', 'targetAttribute' => 'phone', 'targetClass' => 'powerkernel\yiicore\models\User', 'message' => \Yii::t('core', 'This phone number has already been taken.')],
+            ['phone', 'unique', 'targetAttribute' => 'phone', 'targetClass' => 'powerkernel\yiiuser\models\User', 'message' => \Yii::t('user', 'This phone number has already been taken.')],
             ['code', 'checkAuth']
         ];
     }
@@ -46,11 +46,11 @@ class UserUpdatePhoneForm extends Model
         if(!$this->hasErrors()){
             $auth = Auth::verify($this->aid, $this->code);
             if (!$auth) {
-                $this->addError($attribute, \Yii::t('core', 'We cannot process the request.'));
+                $this->addError($attribute, \Yii::t('user', 'We cannot process the request.'));
             }
             else {
                 if($this->phone != $auth->identifier){
-                    $this->addError($attribute, \Yii::t('core', 'We cannot process the request.'));
+                    $this->addError($attribute, \Yii::t('user', 'We cannot process the request.'));
                 }
             }
         }

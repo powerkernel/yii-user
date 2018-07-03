@@ -6,15 +6,15 @@
  */
 
 /* @var $this yii\web\View */
-/* @var $model \powerkernel\yiicore\models\Auth */
+/* @var $model \powerkernel\yiiuser\models\User */
 /* @var $title string */
 
 ?>
 
 
-<?= Yii::t('core', 'Hello,') ?>
+<?= Yii::t('user', 'Hello,') ?>
 
 
-<?= Yii::t('core', 'The following customer has signed up at your website:') ?>
+<?= Yii::t('user', 'The following customer has signed up at your website:') ?>
 
-<?= Yii::t('core', 'Email: {EMAIL}', ['EMAIL'=>$model->email]) ?>
+<?= Yii::t('user', 'Email: {EMAIL}', ['EMAIL'=>$model->email]) ?>

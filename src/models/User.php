@@ -5,7 +5,7 @@
  * @copyright Copyright (c) 2018 Power Kernel
  */
 
-namespace powerkernel\yiicore\models;
+namespace powerkernel\yiiuser\models;
 
 
 use powerkernel\yiicommon\behaviors\UTCDateTimeBehavior;
@@ -44,7 +44,7 @@ class User extends \yii\mongodb\ActiveRecord implements IdentityInterface
      */
     public static function collectionName()
     {
-        return 'core_users';
+        return 'user_db';
     }
 
     /**
@@ -59,10 +59,8 @@ class User extends \yii\mongodb\ActiveRecord implements IdentityInterface
             'access_token',
             'email',
             'new_email',
-            'new_email_code',
             'phone',
             'new_phone',
-            'new_phone_code',
             'role',
             'language',
             'timezone',
@@ -88,7 +86,7 @@ class User extends \yii\mongodb\ActiveRecord implements IdentityInterface
     {
         return [
             // required
-            [['name', 'email'], 'required'],
+            [['name'], 'required'],
             // Default
             ['language', 'default', 'value' => 'en-US'],
             ['timezone', 'default', 'value' => 'UTC'],
@@ -133,17 +131,17 @@ class User extends \yii\mongodb\ActiveRecord implements IdentityInterface
     public function attributeLabels()
     {
         return [
-            '_id' => \Yii::t('app', 'ID'),
-            'name' => \Yii::t('app', 'Name'),
-            'auth_key' => \Yii::t('app', 'Auth Key'),
-            'email' => \Yii::t('app', 'Email'),
-            'phone' => \Yii::t('app', 'Phone'),
-            'role' => \Yii::t('app', 'Role'),
-            'language' => \Yii::t('app', 'Language'),
-            'timezone' => \Yii::t('app', 'Timezone'),
-            'status' => \Yii::t('app', 'Status'),
-            'created_at' => \Yii::t('app', 'Created At'),
-            'updated_at' => \Yii::t('app', 'Updated At'),
+            '_id' => \Yii::t('user', 'ID'),
+            'name' => \Yii::t('user', 'Name'),
+            'auth_key' => \Yii::t('user', 'Auth Key'),
+            'email' => \Yii::t('user', 'Email'),
+            'phone' => \Yii::t('user', 'Phone'),
+            'role' => \Yii::t('user', 'Role'),
+            'language' => \Yii::t('user', 'Language'),
+            'timezone' => \Yii::t('user', 'Timezone'),
+            'status' => \Yii::t('user', 'Status'),
+            'created_at' => \Yii::t('user', 'Created At'),
+            'updated_at' => \Yii::t('user', 'Updated At'),
         ];
     }
 
@@ -170,7 +168,6 @@ class User extends \yii\mongodb\ActiveRecord implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        file_put_contents(\Yii::$app->runtimePath . '/at.text', $token);
         return static::findOne(['access_token' => $token]);
     }
 
@@ -236,12 +233,12 @@ class User extends \yii\mongodb\ActiveRecord implements IdentityInterface
         if ($insert) {
             // admin
             if (\Yii::$app->params['account']['notification']['admin']['accountCreated']) {
-                $subject = \Yii::t('core', 'Customer Sign Up at {APP}', ['APP' => \Yii::$app->name]);
+                $subject = \Yii::t('user', 'Customer Sign Up at {APP}', ['APP' => \Yii::$app->name]);
                 \Yii::$app->mailer
                     ->compose(
                         [
-                            'html' => '@vendor/powerkernel/yii-core-api/src/mail/user-created-admin-html',
-                            'text' => '@vendor/powerkernel/yii-core-api/src/mail/user-created-admin-text'
+                            'html' => '@vendor/powerkernel/yii-user/src/mail/user-created-admin-html',
+                            'text' => '@vendor/powerkernel/yii-user/src/mail/user-created-admin-text'
                         ],
                         [
                             'model' => $this,
@@ -254,12 +251,12 @@ class User extends \yii\mongodb\ActiveRecord implements IdentityInterface
             }
             // user
             if (\Yii::$app->params['account']['notification']['user']['accountCreated']){
-                $subject = \Yii::t('core', 'Registration Complete at {APP}', ['APP' => \Yii::$app->name]);
+                $subject = \Yii::t('user', 'Registration Complete at {APP}', ['APP' => \Yii::$app->name]);
                 \Yii::$app->mailer
                     ->compose(
                         [
-                            'html' => '@vendor/powerkernel/yii-core-api/src/mail/user-created-html',
-                            'text' => '@vendor/powerkernel/yii-core-api/src/mail/user-created-text'
+                            'html' => '@vendor/powerkernel/yii-user/src/mail/user-created-html',
+                            'text' => '@vendor/powerkernel/yii-user/src/mail/user-created-text'
                         ],
                         [
                             'model' => $this,

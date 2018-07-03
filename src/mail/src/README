@@ -1,1 +1,1 @@
-grunt --dist=../vendor/powerkernel/yii-core-api/src/mail --style=../vendor/powerkernel/yii-common/src/mail
+grunt --dist=../vendor/powerkernel/yii-user/src/mail --style=../vendor/powerkernel/yii-common/src/mail
