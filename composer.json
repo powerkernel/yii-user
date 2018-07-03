@@ -1,13 +1,15 @@
 {
-  "name": "powerkernel/yii-core-api",
-  "description": "Yii Core API",
+  "name": "powerkernel/yii-user",
+  "description": "Yii user API module",
   "type": "yii-module",
+  "homepage": "https://powerkernel.com",
   "keywords": [
     "yii",
-    "core",
-    "api"
+    "user",
+    "api",
+    "module"
   ],
-  "license": "Private",
+  "license": "MIT",
   "authors": [
     {
       "name": "Harry Tang",
@@ -17,21 +19,9 @@
   "require": {
     "yiisoft/yii2": "3.0.x-dev"
   },
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://asset-packagist.org"
-    }
-  ],
   "autoload": {
     "psr-4": {
-      "powerkernel\\yiicore\\": "src"
-    }
-  },
-  "extra": {
-    "asset-installer-paths": {
-      "npm-asset-library": "vendor/npm",
-      "bower-asset-library": "vendor/bower"
+      "powerkernel\\yiiuser\\": "src"
     }
   }
 }
