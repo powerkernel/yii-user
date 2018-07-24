@@ -18,6 +18,7 @@ use yii\web\IdentityInterface;
  * @property string $name
  * @property string $auth_key
  * @property string $access_token
+ * @property string $profile_image
  * @property string $email
  * @property string $new_email
  * @property string $new_email_code
@@ -57,6 +58,7 @@ class User extends \yii\mongodb\ActiveRecord implements IdentityInterface
             'name',
             'auth_key',
             'access_token',
+            'profile_picture',
             'email',
             'new_email',
             'phone',
@@ -93,6 +95,8 @@ class User extends \yii\mongodb\ActiveRecord implements IdentityInterface
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             // Rules
             [['name', 'email', 'phone', 'new_phone'], 'filter', 'filter' => 'trim', 'skipOnEmpty' => true],
+            // profile picture
+            ['profile_picture', 'url'],
             // Name
             ['name', 'string', 'max' => 100],
             ['name', 'filter', 'filter' => 'ucwords'],
@@ -134,6 +138,7 @@ class User extends \yii\mongodb\ActiveRecord implements IdentityInterface
             '_id' => \Yii::t('user', 'ID'),
             'name' => \Yii::t('user', 'Name'),
             'auth_key' => \Yii::t('user', 'Auth Key'),
+            'profile_picture' => \Yii::t('user', 'Profile Picture'),
             'email' => \Yii::t('user', 'Email'),
             'phone' => \Yii::t('user', 'Phone'),
             'role' => \Yii::t('user', 'Role'),
