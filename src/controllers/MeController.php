@@ -87,7 +87,7 @@ class MeController extends \powerkernel\yiicommon\controllers\RestController
     {
         $me = \Yii::$app->user->identity;
         $me->load(\Yii::$app->getRequest()->getParsedBody(), '');
-        if ($me->save(true, ['name', 'timezone', 'language'])) {
+        if ($me->save(true, ['name', 'timezone', 'language', 'profile_picture'])) {
             return [
                 'success' => true,
             ];
