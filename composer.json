@@ -16,9 +16,6 @@
       "email": "harry@powerkernel.com"
     }
   ],
-  "require": {
-    "yiisoft/yii2": "3.0.x-dev"
-  },
   "autoload": {
     "psr-4": {
       "powerkernel\\yiiuser\\": "src"
