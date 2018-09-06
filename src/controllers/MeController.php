@@ -87,7 +87,7 @@ class MeController extends \powerkernel\yiicommon\controllers\RestController
     {
         $me = \Yii::$app->user->identity;
         $me->load(\Yii::$app->getRequest()->getParsedBody(), '');
-        if ($me->save(true, ['name', 'timezone', 'language', 'profile_picture'])) {
+        if ($me->save(true, ['name', 'timezone', 'language'])) {
             return [
                 'success' => true,
             ];
@@ -99,6 +99,16 @@ class MeController extends \powerkernel\yiicommon\controllers\RestController
                 ]
             ];
         }
+
+    }
+
+    public function actionUpdateProfilePicture()
+    {
+        
+    }
+
+    public function actionRemoveProfilePicture()
+    {
 
     }
 
